@@ -54,12 +54,24 @@ export const Dropdown = () => {
       }
     };
 
+    const focusOutHandler = (e: FocusEvent) => {
+      if (!isMenuOpen) return;
+
+      const isInsideMenu = menuItemsRefs.current.some((itemRef) =>
+        itemRef?.contains(e.relatedTarget as Node)
+      );
+
+      if (!isInsideMenu) setIsMenuOpen(false);
+    };
+
     window.addEventListener("keydown", keydownHandler);
     window.addEventListener("click", clickHandler);
+    window.addEventListener("focusout", focusOutHandler);
 
     return () => {
       window.removeEventListener("keydown", keydownHandler);
       window.removeEventListener("click", clickHandler);
+      window.removeEventListener("focusout", focusOutHandler);
     };
   }, [activeIndex, isMenuOpen]);
 
