@@ -40,9 +40,8 @@ export const Dropdown = ({ menuItems }: DropdownProps) => {
     const focusOutHandler = (e: FocusEvent) => {
       if (!isMenuOpen) return;
 
-      const isInsideMenu = menuItemsRefs.current.some((itemRef) =>
-        itemRef?.contains(e.relatedTarget as Node)
-      );
+      const isInsideMenu = menuRef.current?.contains(e.relatedTarget as Node);
+
       if (!isInsideMenu) setIsMenuOpen(false);
     };
 
@@ -53,7 +52,7 @@ export const Dropdown = ({ menuItems }: DropdownProps) => {
       window.removeEventListener("keydown", keydownHandler);
       window.removeEventListener("focusout", focusOutHandler);
     };
-  }, [isMenuOpen, menuButtonRef]);
+  }, [isMenuOpen]);
 
   useEffect(() => {
     if (isMenuOpen) {
