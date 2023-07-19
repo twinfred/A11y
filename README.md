@@ -39,3 +39,7 @@ The `react-intl` library was added to manage the changing between English and Sp
 ### react-helmet-async
 
 The `react-helmet-async` library was added to update the `html` `lang` tag.
+
+### Language stored in localStorage
+
+The language value is stored in `localStorage` so that it is retained on their browser.

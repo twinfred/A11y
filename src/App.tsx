@@ -7,11 +7,14 @@ import spanishMessages from "./locales/es.json";
 import { Header } from "./Header";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { LanguageSelector } from "./LanguageSelector";
+import { getFromLocalStorage } from "./utils/utils";
 
 export enum Locale {
   EN = "en",
   ES = "es",
 }
+
+export const localeLocalStorageKey = "locale";
 
 const messages = {
   [Locale.EN]: englishMessages,
@@ -25,7 +28,9 @@ const FAQMenuItems = [
 ];
 
 function App() {
-  const [locale, setLocale] = useState<Locale>(Locale.EN);
+  const [locale, setLocale] = useState<Locale>(
+    (getFromLocalStorage(localeLocalStorageKey) as Locale) || Locale.EN
+  );
 
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
@@ -33,7 +38,7 @@ function App() {
         <Helmet>
           <html lang={locale} />
         </Helmet>
-        <LanguageSelector setLocale={setLocale} />
+        <LanguageSelector locale={locale} setLocale={setLocale} />
         <Header />
         <nav aria-label="Main navigation">
           <Dropdown menuItems={FAQMenuItems} />
