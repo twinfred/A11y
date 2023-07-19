@@ -88,6 +88,7 @@ export const Dropdown = ({ menuItems }: DropdownProps) => {
               ref={(element) => {
                 menuItemsRefs.current[idx] = element as HTMLAnchorElement;
               }}
+              onClick={() => setIsMenuOpen(false)}
               key={item.id}
             >
               {intl.formatMessage({ id: item.id })}
@@ -102,12 +103,13 @@ export const Dropdown = ({ menuItems }: DropdownProps) => {
 interface MenuItemprops {
   href: string;
   children: React.ReactNode;
+  onClick: () => void;
 }
 
 const MenuItem = forwardRef<HTMLAnchorElement, MenuItemprops>(
-  ({ href, children }, ref) => {
+  ({ children, ...rest }, ref) => {
     return (
-      <a role="menuitem" href={href} ref={ref} className="menu-link">
+      <a role="menuitem" ref={ref} className="menu-link" {...rest}>
         {children}
       </a>
     );
