@@ -90,12 +90,13 @@ export const Dropdown = ({ menuItems }: DropdownProps) => {
         aria-expanded={isMenuOpen}
         onClick={() => setIsMenuOpen((prevIsMenuOpen) => !prevIsMenuOpen)}
         ref={menuButtonRef}
+        style={{ backgroundColor: "darkblue", color: "white" }}
       >
         {intl.formatMessage({ id: "menuButton" })}
       </button>
       {isMenuOpen && (
         <ul
-          style={{ backgroundColor: "lightgrey" }}
+          style={{ backgroundColor: "#f0f0f0" }}
           role="menu"
           aria-labelledby="MenuButton"
           ref={menuRef}
@@ -126,7 +127,7 @@ const MenuItem = forwardRef<HTMLAnchorElement, MenuItemprops>(
   ({ href, children }, ref) => {
     return (
       <li role="presentation">
-        <a role="menuitem" href={href} ref={ref}>
+        <a role="menuitem" href={href} ref={ref} style={{ color: "black" }}>
           {children}
         </a>
       </li>
