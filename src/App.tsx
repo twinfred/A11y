@@ -27,8 +27,6 @@ const FAQMenuItems = [
 function App() {
   const [locale, setLocale] = useState<Locale>(Locale.EN);
 
-  useEffect(() => console.log(locale), [locale]);
-
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <HelmetProvider>
