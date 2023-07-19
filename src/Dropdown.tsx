@@ -83,23 +83,23 @@ export const Dropdown = ({ menuItems }: DropdownProps) => {
   }, [isMenuOpen, menuRef]);
 
   return (
-    <>
+    <div className="dropdown-container">
       <button
         id="MenuButton"
         aria-haspopup="true"
         aria-expanded={isMenuOpen}
         onClick={() => setIsMenuOpen((prevIsMenuOpen) => !prevIsMenuOpen)}
         ref={menuButtonRef}
-        style={{ backgroundColor: "darkblue", color: "white" }}
+        className="menu-button"
       >
         {intl.formatMessage({ id: "menuButton" })}
       </button>
       {isMenuOpen && (
         <ul
-          style={{ backgroundColor: "#f0f0f0" }}
           role="menu"
           aria-labelledby="MenuButton"
           ref={menuRef}
+          className="menu-dropdown"
         >
           {menuItems.map((item, idx) => (
             <MenuItem
@@ -114,7 +114,7 @@ export const Dropdown = ({ menuItems }: DropdownProps) => {
           ))}
         </ul>
       )}
-    </>
+    </div>
   );
 };
 
@@ -127,7 +127,7 @@ const MenuItem = forwardRef<HTMLAnchorElement, MenuItemprops>(
   ({ href, children }, ref) => {
     return (
       <li role="presentation">
-        <a role="menuitem" href={href} ref={ref} style={{ color: "black" }}>
+        <a role="menuitem" href={href} ref={ref} className="menu-link">
           {children}
         </a>
       </li>
