@@ -30,6 +30,7 @@
 
 .menu-link {
   color: black;
+  display: block;
 }
 
 .menu-link:hover {

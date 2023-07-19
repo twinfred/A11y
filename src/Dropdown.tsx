@@ -11,9 +11,8 @@ interface DropdownProps {
 export const Dropdown = ({ menuItems }: DropdownProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const menuRef = useRef<HTMLUListElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const menuItemsRefs = useRef<HTMLAnchorElement[]>([]);
-  const [activeIndex, setActiveIndex] = useState<number>(0);
   const intl = useIntl();
 
   useEffect(() => {
@@ -30,27 +29,11 @@ export const Dropdown = ({ menuItems }: DropdownProps) => {
 
         if (menuItemsRefs.current.length === 0) return;
 
-        const lastIndex = menuItemsRefs.current.length - 1;
-        let newIndex;
-
         if (e.key === "ArrowUp") {
-          newIndex = activeIndex <= 0 ? lastIndex : activeIndex - 1;
+          (document.activeElement?.previousSibling as HTMLElement)?.focus();
         } else {
-          newIndex = activeIndex >= lastIndex ? 0 : activeIndex + 1;
+          (document.activeElement?.nextSibling as HTMLElement)?.focus();
         }
-
-        setActiveIndex(newIndex);
-        menuItemsRefs.current[newIndex]?.focus();
-      }
-    };
-
-    const clickHandler = (e: MouseEvent) => {
-      if (!isMenuOpen || menuButtonRef.current?.contains(e.target as Node)) {
-        return;
-      }
-
-      if (!menuRef.current?.contains(e.target as Node)) {
-        setIsMenuOpen(false);
       }
     };
 
@@ -60,27 +43,23 @@ export const Dropdown = ({ menuItems }: DropdownProps) => {
       const isInsideMenu = menuItemsRefs.current.some((itemRef) =>
         itemRef?.contains(e.relatedTarget as Node)
       );
-
       if (!isInsideMenu) setIsMenuOpen(false);
     };
 
     window.addEventListener("keydown", keydownHandler);
-    window.addEventListener("click", clickHandler);
     window.addEventListener("focusout", focusOutHandler);
 
     return () => {
       window.removeEventListener("keydown", keydownHandler);
-      window.removeEventListener("click", clickHandler);
       window.removeEventListener("focusout", focusOutHandler);
     };
-  }, [activeIndex, isMenuOpen]);
+  }, [isMenuOpen, menuButtonRef]);
 
   useEffect(() => {
     if (isMenuOpen) {
-      setActiveIndex(0);
       menuItemsRefs.current[0]?.focus();
     }
-  }, [isMenuOpen, menuRef]);
+  }, [isMenuOpen]);
 
   return (
     <div className="dropdown-container">
@@ -95,7 +74,7 @@ export const Dropdown = ({ menuItems }: DropdownProps) => {
         {intl.formatMessage({ id: "menuButton" })}
       </button>
       {isMenuOpen && (
-        <ul
+        <div
           role="menu"
           aria-labelledby="MenuButton"
           ref={menuRef}
@@ -112,7 +91,7 @@ export const Dropdown = ({ menuItems }: DropdownProps) => {
               {intl.formatMessage({ id: item.id })}
             </MenuItem>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
@@ -126,11 +105,9 @@ interface MenuItemprops {
 const MenuItem = forwardRef<HTMLAnchorElement, MenuItemprops>(
   ({ href, children }, ref) => {
     return (
-      <li role="presentation">
-        <a role="menuitem" href={href} ref={ref} className="menu-link">
-          {children}
-        </a>
-      </li>
+      <a role="menuitem" href={href} ref={ref} className="menu-link">
+        {children}
+      </a>
     );
   }
 );
