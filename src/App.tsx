@@ -5,6 +5,7 @@ import { IntlProvider } from "react-intl";
 import englishMessages from "./locales/en.json";
 import spanishMessages from "./locales/es.json";
 import { Header } from "./Header";
+import { Helmet } from "react-helmet";
 
 enum Locale {
   EN = "en",
@@ -29,6 +30,9 @@ function App() {
 
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
+      <Helmet>
+        <html lang={locale} />
+      </Helmet>
       <Header />
       <nav aria-label="Main navigation">
         <select onChange={(e) => setLocale(e.target.value as Locale)}>
