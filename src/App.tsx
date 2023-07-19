@@ -5,7 +5,7 @@ import { IntlProvider } from "react-intl";
 import englishMessages from "./locales/en.json";
 import spanishMessages from "./locales/es.json";
 import { Header } from "./Header";
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import { LanguageSelector } from "./LanguageSelector";
 
 export enum Locale {
@@ -31,14 +31,16 @@ function App() {
 
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
-      <Helmet>
-        <html lang={locale} />
-      </Helmet>
-      <LanguageSelector setLocale={setLocale} />
-      <Header />
-      <nav aria-label="Main navigation">
-        <Dropdown menuItems={FAQMenuItems} />
-      </nav>
+      <HelmetProvider>
+        <Helmet>
+          <html lang={locale} />
+        </Helmet>
+        <LanguageSelector setLocale={setLocale} />
+        <Header />
+        <nav aria-label="Main navigation">
+          <Dropdown menuItems={FAQMenuItems} />
+        </nav>
+      </HelmetProvider>
     </IntlProvider>
   );
 }
