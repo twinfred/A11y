@@ -1,20 +1,20 @@
-import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
+import { useIntl } from "react-intl";
 
-export const Dropdown = () => {
-  const menuItems = useMemo(
-    () => [
-      { href: "#", text: "How much does it cost?" },
-      { href: "#", text: "How do I buy it?" },
-      { href: "#", text: "How can I pay my bill?" },
-    ],
-    []
-  );
+interface DropdownProps {
+  menuItems: {
+    href: string;
+    id: string;
+  }[];
+}
 
+export const Dropdown = ({ menuItems }: DropdownProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLUListElement>(null);
   const menuItemsRefs = useRef<HTMLAnchorElement[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
+  const intl = useIntl();
 
   useEffect(() => {
     const keydownHandler = (e: KeyboardEvent) => {
@@ -91,7 +91,7 @@ export const Dropdown = () => {
         onClick={() => setIsMenuOpen((prevIsMenuOpen) => !prevIsMenuOpen)}
         ref={menuButtonRef}
       >
-        FAQ
+        {intl.formatMessage({ id: "menuButton" })}
       </button>
       {isMenuOpen && (
         <ul
@@ -106,9 +106,9 @@ export const Dropdown = () => {
               ref={(element) => {
                 menuItemsRefs.current[idx] = element as HTMLAnchorElement;
               }}
-              key={item.text}
+              key={item.id}
             >
-              {item.text}
+              {intl.formatMessage({ id: item.id })}
             </MenuItem>
           ))}
         </ul>
