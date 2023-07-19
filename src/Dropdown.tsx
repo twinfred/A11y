@@ -41,8 +41,11 @@ export const Dropdown = ({ menuItems }: DropdownProps) => {
       if (!isMenuOpen) return;
 
       const isInsideMenu = menuRef.current?.contains(e.relatedTarget as Node);
+      const isMenuButton = menuButtonRef.current?.contains(
+        e.relatedTarget as Node
+      );
 
-      !isInsideMenu && setIsMenuOpen(false);
+      !isInsideMenu && !isMenuButton && setIsMenuOpen(false);
     };
 
     window.addEventListener("keydown", keydownHandler);
