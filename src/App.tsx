@@ -6,8 +6,9 @@ import englishMessages from "./locales/en.json";
 import spanishMessages from "./locales/es.json";
 import { Header } from "./Header";
 import { Helmet } from "react-helmet";
+import { LanguageSelector } from "./LanguageSelector";
 
-enum Locale {
+export enum Locale {
   EN = "en",
   ES = "es",
 }
@@ -33,12 +34,9 @@ function App() {
       <Helmet>
         <html lang={locale} />
       </Helmet>
+      <LanguageSelector setLocale={setLocale} />
       <Header />
       <nav aria-label="Main navigation">
-        <select onChange={(e) => setLocale(e.target.value as Locale)}>
-          <option value={Locale.EN}>English</option>
-          <option value={Locale.ES}>Español</option>
-        </select>
         <Dropdown menuItems={FAQMenuItems} />
       </nav>
     </IntlProvider>
